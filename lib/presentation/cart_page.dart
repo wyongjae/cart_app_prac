@@ -1,6 +1,8 @@
 import 'package:cart_app_parc/data/item.dart';
+import 'package:cart_app_parc/domain/cart_view_model.dart';
 import 'package:cart_app_parc/presentation/cart_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -10,15 +12,19 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  bool isChecked = false;
+
   final List<Item> _items = [
     Item(name: '포카칩', price: 3000),
     Item(name: '책', price: 15000),
     Item(name: '핸드폰', price: 1050000),
-    Item(name: '연필', price: 1500),
+    Item(name: '연필', price: 2000),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<CartViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart Page'),
@@ -52,13 +58,30 @@ class _CartPageState extends State<CartPage> {
                       title: Text(
                         item.name,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                       subtitle: Text('${item.price}'),
                       trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.check),
+                        onPressed: () {
+                          setState(
+                            () {
+                              isChecked = !isChecked;
+
+                              if (isChecked) {
+                                viewModel.addItem(item);
+                              } else {
+                                viewModel.removeItem(item);
+                              }
+                            },
+                          );
+                        },
+                        icon: isChecked
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.red,
+                              )
+                            : const Icon(Icons.check),
                       ),
                     ),
                   ),
