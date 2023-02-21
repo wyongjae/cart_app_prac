@@ -1,26 +1,21 @@
 import 'package:cart_app_parc/data/item.dart';
-import 'package:cart_app_parc/domain/cart_view_model.dart';
 import 'package:cart_app_parc/presentation/cart_list_page.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
-  final CartViewModel viewModel;
-
-  const CartPage({
-    Key? key,
-    required this.viewModel,
-  }) : super(key: key);
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-  @override
-  void initState() {
-    super.initState();
-    widget.viewModel.fetchItem();
-  }
+  final List<Item> _items = [
+    Item(name: '포카칩', price: 3000),
+    Item(name: '책', price: 15000),
+    Item(name: '핸드폰', price: 1050000),
+    Item(name: '연필', price: 1500),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,51 +34,37 @@ class _CartPageState extends State<CartPage> {
           )
         ],
       ),
-      body: StreamBuilder<List<Item>>(
-        initialData: const [],
-        stream: widget.viewModel.cartStream,
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.data == null) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      body: ListView.builder(
+        shrinkWrap: true,
+        itemCount: _items.length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = _items[index];
 
-          final items = snapshot.data ?? [];
-
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = items[index];
-
-              return SizedBox(
-                height: 80,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Card(
-                        child: ListTile(
-                          title: Text(
-                            item.name,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                          subtitle: Text('${item.price}'),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.check),
-                          ),
+          return SizedBox(
+            height: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Card(
+                    child: ListTile(
+                      title: Text(
+                        item.name,
+                        style: const TextStyle(
+                          fontSize: 18,
                         ),
                       ),
+                      subtitle: Text('${item.price}'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.check),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              );
-            },
+              ],
+            ),
           );
         },
       ),

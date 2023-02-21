@@ -1,19 +1,20 @@
-import 'dart:async';
+import 'dart:collection';
 
 import 'package:cart_app_parc/data/item.dart';
-import 'package:cart_app_parc/data/item_data.dart';
+import 'package:flutter/material.dart';
 
-class CartViewModel {
-  final ItemData itemData;
+class CartViewModel with ChangeNotifier {
+  final List<Item> _items = [];
 
-  CartViewModel(this.itemData);
+  UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 
-  final _cartStreamController = StreamController<List<Item>>();
+  void addItem(Item item) {
+    _items.add(item);
+    notifyListeners();
+  }
 
-  Stream<List<Item>> get cartStream => _cartStreamController.stream;
-
-  Future<void> fetchItem() async {
-    final result = await itemData.fetchData();
-    _cartStreamController.add(result);
+  void removeItem(Item item) {
+    _items.remove(item);
+    notifyListeners();
   }
 }
