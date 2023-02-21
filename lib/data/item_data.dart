@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:cart_app_parc/data/item.dart';
 
 class ItemData {
-  Future<List<Item>> fetchItem() async {
-    List<dynamic> jsonResponse = await jsonDecode(itemList);
+  Future<List<Item>> fetchData() async {
+    List<dynamic> jsonResponse = await jsonDecode(items);
 
     return jsonResponse.map((e) => Item.fromJson(e)).toList();
   }
 }
 
-const itemList = '''[
+const items = '''[
   {
     "name": "포카칩",
     "price": 5000
