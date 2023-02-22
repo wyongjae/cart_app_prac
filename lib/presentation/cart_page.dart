@@ -4,22 +4,8 @@ import 'package:cart_app_parc/presentation/cart_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
-
-  @override
-  State<CartPage> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
-  bool _isChecked = false;
-
-  final List<Item> _items = [
-    Item(name: '포카칩', price: 3000),
-    Item(name: '책', price: 15000),
-    Item(name: '핸드폰', price: 1050000),
-    Item(name: '연필', price: 2000),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,51 +28,30 @@ class _CartPageState extends State<CartPage> {
       ),
       body: ListView.builder(
         shrinkWrap: true,
-        itemCount: _items.length,
+        itemCount: viewModel.products.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = _items[index];
+          final item = viewModel.products[index];
 
-          return SizedBox(
-            height: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        item.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      subtitle: Text('${item.price}'),
-                      trailing: IconButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isChecked = !_isChecked;
-
-                              if (_isChecked) {
-                                viewModel.addItem(item);
-                              } else {
-                                viewModel.removeItem(item);
-                              }
-                            },
-                          );
-                        },
-                        icon: _isChecked
-                            ? const Icon(
-                                Icons.check,
-                                color: Colors.red,
-                              )
-                            : const Icon(Icons.check),
-                      ),
-                    ),
-                  ),
+          return Card(
+            child: ListTile(
+              title: Text(
+                item.name,
+                style: const TextStyle(
+                  fontSize: 20,
                 ),
-              ],
+              ),
+              subtitle: Text('${item.price}'),
+              trailing: IconButton(
+                onPressed: () {
+                  viewModel.onItemClick(item);
+                },
+                icon: item.isChecked
+                    ? const Icon(
+                        Icons.check,
+                        color: Colors.red,
+                      )
+                    : const Icon(Icons.check),
+              ),
             ),
           );
         },

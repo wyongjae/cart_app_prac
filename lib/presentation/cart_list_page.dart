@@ -17,28 +17,17 @@ class CartListPage extends StatelessWidget {
         shrinkWrap: true,
         itemCount: viewModel.items.length,
         itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            height: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Card(
-                    child: ListTile(
-                      title: Text(
-                        viewModel.items[index].name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${viewModel.items[index].price}',
-                      ),
-                    ),
-                  ),
-                )
-              ],
+          return Card(
+            child: ListTile(
+              title: Text(
+                viewModel.items[index].name,
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              subtitle: Text(
+                '${viewModel.items[index].price}',
+              ),
             ),
           );
         },
