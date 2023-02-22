@@ -12,7 +12,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  bool isChecked = false;
+  bool _isChecked = false;
 
   final List<Item> _items = [
     Item(name: '포카칩', price: 3000),
@@ -66,9 +66,9 @@ class _CartPageState extends State<CartPage> {
                         onPressed: () {
                           setState(
                             () {
-                              isChecked = !isChecked;
+                              _isChecked = !_isChecked;
 
-                              if (isChecked) {
+                              if (_isChecked) {
                                 viewModel.addItem(item);
                               } else {
                                 viewModel.removeItem(item);
@@ -76,7 +76,7 @@ class _CartPageState extends State<CartPage> {
                             },
                           );
                         },
-                        icon: isChecked
+                        icon: _isChecked
                             ? const Icon(
                                 Icons.check,
                                 color: Colors.red,

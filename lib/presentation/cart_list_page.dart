@@ -27,10 +27,13 @@ class CartListPage extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        '${viewModel.items[index]}',
+                        viewModel.items[index].name,
                         style: const TextStyle(
                           fontSize: 20,
                         ),
+                      ),
+                      subtitle: Text(
+                        '${viewModel.items[index].price}',
                       ),
                     ),
                   ),
